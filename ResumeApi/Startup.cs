@@ -20,6 +20,7 @@ namespace ResumeApi
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseStaticFiles();
             app.UseRouting();
             app.UseSwaggerConfiguration();
             app.UseEndpoints(endpoints => endpoints.MapControllers());

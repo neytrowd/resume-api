@@ -8,6 +8,6 @@
         
         public string Email { get; set; }
         
-        public List<IFormFile> Resumes { get; set; }
+        public List<IFormFile> Files { get; set; }
     }
 }

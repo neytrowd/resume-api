@@ -10,6 +10,6 @@
         
         public string Email { get; set; }
         
-        public List<string> Resumes { get; set; }
+        public List<string> Files { get; set; }
     }
 }

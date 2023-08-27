@@ -16,25 +16,35 @@ namespace ResumeApi.Controllers
         }
         
         [HttpGet]
-        public string GetResumes()
+        public async Task<GetResumesResponse> GetResumes()
         {
-            return "";
+            var resumes = await _resumeService.GetResumes();
+            
+            return new GetResumesResponse()
+            {
+                Resumes = resumes
+            };
         }
         
         [HttpGet("{id}")]
-        public string GetResume([FromQuery] long id)
+        public async Task<GetResumeResponse> GetResume([FromRoute] long id)
         {
-            return "";
+            var resume = await _resumeService.GetResume(id);
+            
+            return new GetResumeResponse()
+            {
+                Resume = resume
+            };
         }
         
         [HttpPost]
-        public CreateResumeResponse CreateResume([FromForm] CreateResumeRequest request)
+        public async Task<CreateResumeResponse> CreateResume([FromForm] CreateResumeRequest request)
         {
-            var resume = _resumeService.CreateResume(request);
+            var resume = await _resumeService.CreateResume(request);
 
             return new CreateResumeResponse()
             {
-                Resume = resume.Result
+                Resume = resume
             };
         }
     }
