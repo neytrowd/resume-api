@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
 using ResumeApi.Contract.Models;
 using ResumeApi.Contract.Api.Resume.Request;
 
@@ -9,13 +10,16 @@ namespace ResumeApi.Services.Resume
         private string _dbPath;
         private IWebHostEnvironment _hostEnvironment;
         private IConfiguration _configuration;
+        private IHttpContextAccessor _httpContext;
 
         public ResumeService(
             IWebHostEnvironment environment,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IHttpContextAccessor httpContext)
         {
             _hostEnvironment = environment;
             _configuration = configuration;
+            _httpContext = httpContext;
             _dbPath = Path.Combine(_hostEnvironment.ContentRootPath, "db.txt");
         }
         
@@ -30,7 +34,7 @@ namespace ResumeApi.Services.Resume
             return resumeList;
         }
 
-        public async Task<ResumeModel> GetResume(long id)
+        public async Task<ResumeModel> GetResume(string id)
         {
             var jsonData = File.ReadAllText(_dbPath);
             var resumeList = JsonSerializer.Deserialize<List<ResumeModel>>(jsonData);
@@ -45,7 +49,7 @@ namespace ResumeApi.Services.Resume
         {
             var resumeModel = new ResumeModel()
             {
-                Id = DateTime.Now.Ticks,
+                Id =  Guid.NewGuid().ToString(),
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 Email = request.Email,
@@ -56,6 +60,13 @@ namespace ResumeApi.Services.Resume
             {
                 foreach (var file in request.Files)
                 {
+                    var fileSizeInMb = file.Length / (1024 * 1024);
+
+                    if (fileSizeInMb > 5)
+                    {
+                        throw new Exception("File size is incorrect");
+                    }
+                    
                     var guid = Guid.NewGuid().ToString();
                     var fileExtension = Path.GetExtension(file.FileName);
                     var newFileName = $"{guid}{fileExtension}";

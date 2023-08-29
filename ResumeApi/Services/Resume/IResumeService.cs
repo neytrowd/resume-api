@@ -7,7 +7,7 @@ namespace ResumeApi.Services.Resume
     {
         Task<List<ResumeModel>> GetResumes();
 
-        Task<ResumeModel> GetResume(long id);
+        Task<ResumeModel> GetResume(string id);
 
         Task<ResumeModel> CreateResume(CreateResumeRequest request);
     }

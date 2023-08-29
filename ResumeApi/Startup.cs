@@ -16,6 +16,7 @@ namespace ResumeApi
             services.AddControllers();
             services.AddServicesConfiguration();
             services.AddSwaggerConfiguration();
+            services.AddHttpContextAccessor();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

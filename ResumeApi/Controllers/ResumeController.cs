@@ -27,7 +27,7 @@ namespace ResumeApi.Controllers
         }
         
         [HttpGet("{id}")]
-        public async Task<GetResumeResponse> GetResume([FromRoute] long id)
+        public async Task<GetResumeResponse> GetResume([FromRoute] string id)
         {
             var resume = await _resumeService.GetResume(id);
             
